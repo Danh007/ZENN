@@ -255,6 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70d0731c21dc3f449d92d0dd24549fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bootstrap
+  economyConfig: {fileID: 11400000, guid: 3e8600b1c3640fa49b3c4879521cc1c8, type: 2}
+  firstSceneName: MainMenu
 --- !u!1 &1439037366
 GameObject:
   m_ObjectHideFlags: 0

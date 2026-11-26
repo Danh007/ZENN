@@ -16,32 +16,26 @@ namespace ZENN.Systems
         [Tooltip("Maximum pixel distance the handle can move from the center.")]
         [SerializeField] private float handleRange = 100f;
 
-        // IMovementInputProvider contract implementation
+        [Tooltip("Normalized distance (0 to 1) from the center where input is ignored.")]
+        [Range(0f, 0.5f)]
+        [SerializeField] private float deadZone = 0.1f;
+
+        [Tooltip("Maps raw distance from center (X: 0 to 1) to output strength (Y: 0 to 1).")]
+        [SerializeField] private AnimationCurve responseCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
         public bool IsDragging { get; private set; }
         public Vector2 InputVector { get; private set; }
 
-        private Vector2 centerPosition;
-
-        private void Start()
-        {
-            if (background != null)
-            {
-                centerPosition = background.anchoredPosition;
-            }
-        }
-
         public void OnPointerDown(PointerEventData eventData)
         {
-            // Instantly register touch/click on the joystick area
             IsDragging = true;
             OnDrag(eventData);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (background == null || handle == null) return;
+            if (background == null || handle == null || handleRange <= 0f) return;
 
-            // Convert screen position of the touch/mouse to local canvas space
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 background,
                 eventData.position,
@@ -49,26 +43,32 @@ namespace ZENN.Systems
                 out Vector2 localPoint
             );
 
-            // Calculate vector from center to touch point
-            Vector2 direction = localPoint;
-            float distance = direction.magnitude;
+            // Clamp visual handle within handleRange
+            Vector2 clampedOffset = Vector2.ClampMagnitude(localPoint, handleRange);
+            handle.anchoredPosition = clampedOffset;
 
-            // Clamp the handle within the maximum range
-            if (distance > handleRange)
+            // Normalized distance from 0 (center) to 1 (edge)
+            float normalizedDistance = clampedOffset.magnitude / handleRange;
+
+            // 1. Deadzone check: ignore tiny accidental touches near dead center
+            if (normalizedDistance < deadZone)
             {
-                direction = direction.normalized * handleRange;
+                InputVector = Vector2.zero;
+                return;
             }
 
-            // Move the visual handle
-            handle.anchoredPosition = direction;
+            // 2. Rescale distance smoothly from [deadZone..1] to [0..1] so there's no sudden jump
+            float remappedMagnitude = Mathf.InverseLerp(deadZone, 1f, normalizedDistance);
 
-            // Output normalized direction vector (-1 to 1) for the player controller
-            InputVector = (handleRange > 0f) ? (direction / handleRange) : Vector2.zero;
+            // 3. Evaluate your custom curve for fine control
+            float curvedMagnitude = responseCurve.Evaluate(remappedMagnitude);
+
+            // Apply the curved magnitude to the direction
+            InputVector = clampedOffset.normalized * curvedMagnitude;
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            // Reset everything when the user lifts their finger/mouse button
             IsDragging = false;
             InputVector = Vector2.zero;
 

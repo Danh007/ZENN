@@ -26,10 +26,10 @@ namespace ZENN.Gameplay
         {
             if (playerTransform == null)
             {
-                var playerController = FindAnyObjectByType<PlayerSphereController>();
-                if (playerController != null)
+                var player = FindAnyObjectByType<SphereBody>();
+                if (player != null)
                 {
-                    playerTransform = playerController.transform;
+                    playerTransform = player.transform;
                 }
             }
 

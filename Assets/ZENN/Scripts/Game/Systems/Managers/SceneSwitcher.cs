@@ -6,8 +6,8 @@ namespace ZENN.Systems
     public class SceneSwitcher : MonoBehaviour
     {
         [Header("Scene Names")]
-        [SerializeField] private string gameSceneName = "SampleScene";
-        [SerializeField] private string mainMenuSceneName = "MainMenu";
+        [SerializeField] private string gameSceneName = "Level";
+        [SerializeField] private string mainMenuSceneName = "Home";
         [SerializeField] private string settingsSceneName = "Settings";
 
         // Call this from the Main Menu Play Button
