@@ -18,6 +18,6 @@ A game about balancing a sphere, reaching new checkpoints, solving puzzles and l
 | `DECISIONS.md` | Every real decision the team made, and why |
 | `AGENTS.md` | Context for AI coding tools: architecture, rules, conventions |
 
-## [Economy Sheet](https://drive.google.com/file/d/1IIO-b_gUCidCg61tzxuKZQK8HiZDWh1O/view?usp=drive_link)(https://docs.google.com/spreadsheets/d/1DFOGEY0ifWaOOnA-MT4yX1wulgpNuaUa9n-Al56pKuM/edit?usp=sharing)
+## [Economy Sheet] (https://drive.google.com/file/d/1IIO-b_gUCidCg61tzxuKZQK8HiZDWh1O/view?usp=drive_link)(https://docs.google.com/spreadsheets/d/1DFOGEY0ifWaOOnA-MT4yX1wulgpNuaUa9n-Al56pKuM/edit?usp=sharing)
 For context, the upgrades are incremental handeling, friction and responsivness of the sphere, that why they are relativly cheap.
 This Economy sheet is the first draft for it, expected to change...
