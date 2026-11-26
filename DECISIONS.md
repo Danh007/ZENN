@@ -38,3 +38,11 @@ Chose: SettingService - A simple toggel would be something relativly easy to imp
 AI: An attempt was made but took longer then simply implementing...
 Who: Denis Beigel
 ```
+
+## 2026-11-26 — Economy numbers
+```
+Options: Larg values / Small values
+Chose: Small - The choice was more in tune with the feel of the game, a simpler expirace without numbers reaching astronomical numbers, as you need to physicly collect coins in the level... This is just the start tho, the more complete echo sheet will have the speed at which you finish a level acounted for once gameplay is more nailed down (handeling, speeds and the like)
+AI: Not yet...
+Who: Denis Beigel
+```
