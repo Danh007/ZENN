@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: EconomyConfig
   m_EditorClassIdentifier: Core::ZENN.Core.EconomyConfig
   startingCoins: 10
+  skinCosts:
+  - skinId: default
+    cost: 0
+  - skinId: blue
+    cost: 50
   coinsPerLevel: 50
   dailyGift: 50
   upgradeBaseCost: 100

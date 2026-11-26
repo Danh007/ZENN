@@ -1,28 +1,57 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ZENN.Core
+[CreateAssetMenu(menuName = "Game/Economy Config")]
+public class EconomyConfig : ScriptableObject
 {
-    [CreateAssetMenu(menuName = "Game/Economy Config")]
-    public class EconomyConfig : ScriptableObject
+    [Serializable]
+    public struct SkinCostEntry
     {
-        [Header("First Boot")]
-        public int startingCoins = 100;
+        [Tooltip("Must match SkinDefinition.id (e.g., 'default', 'blue_shader').")]
+        public string skinId;
 
-        [Header("Sources")]
-        public int coinsPerLevel = 50;
-        public int dailyGift = 50;
+        [Min(0)]
+        public int cost;
+    }
 
-        [Header("Upgrades")]
-        public int upgradeBaseCost = 100;
-        public float upgradeGrowth = 1.5f;
-        public int upgradeMaxLevel = 10;
+    [Header("First Boot")]
+    public int startingCoins = 100;
 
-        // Placeholder for future items:
-        // [Header("Items")]
-        // public List<ItemConfig> items = new();
+    [Tooltip("Optional list for mapping additional skin IDs to centralized prices.")]
+    public List<SkinCostEntry> skinCosts = new();
 
-        public int UpgradeCost(int level) =>
-            Mathf.RoundToInt(upgradeBaseCost * Mathf.Pow(upgradeGrowth, level));
+    [Header("Sources")]
+    public int coinsPerLevel = 50;
+    public int dailyGift = 50;
+
+    [Header("Upgrades")]
+    public int upgradeBaseCost = 100;
+    public float upgradeGrowth = 1.5f;
+    public int upgradeMaxLevel = 10;
+
+    public int UpgradeCost(int level) =>
+        Mathf.RoundToInt(upgradeBaseCost * Mathf.Pow(upgradeGrowth, level));
+
+    public int GetSkinCost(string skinId, int fallbackCost = 0)
+    {
+        int safeFallback = Mathf.Max(0, fallbackCost);
+
+        if (string.IsNullOrWhiteSpace(skinId))
+            return safeFallback;
+
+        string normalizedId = skinId.Trim();
+
+        for (int i = 0; i < skinCosts.Count; i++)
+        {
+            SkinCostEntry entry = skinCosts[i];
+            if (!string.IsNullOrWhiteSpace(entry.skinId) &&
+                string.Equals(entry.skinId.Trim(), normalizedId, StringComparison.OrdinalIgnoreCase))
+            {
+                return Mathf.Max(0, entry.cost);
+            }
+        }
+
+        return safeFallback;
     }
 }

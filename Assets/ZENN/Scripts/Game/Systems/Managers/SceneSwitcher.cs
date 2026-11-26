@@ -9,6 +9,7 @@ namespace ZENN.Systems
         [SerializeField] private string gameSceneName = "Level";
         [SerializeField] private string mainMenuSceneName = "Home";
         [SerializeField] private string settingsSceneName = "Settings";
+        [SerializeField] private string shopSceneName = "Shop";
 
         // Call this from the Main Menu Play Button
         public void LoadGameScene()
@@ -27,5 +28,12 @@ namespace ZENN.Systems
         {
             SceneManager.LoadScene(settingsSceneName);
         }
+
+        // Call this from the Shop Button
+        public void LoadShopScene()
+        {
+            SceneManager.LoadScene(shopSceneName);
+        }
+
     }
 }

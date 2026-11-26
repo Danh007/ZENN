@@ -7,6 +7,7 @@ namespace ZENN.Systems
     public class Bootstrap : MonoBehaviour
     {
         [SerializeField] private EconomyConfig economyConfig;
+        [SerializeField] private SkinCatalog skinCatalog;
         [SerializeField] private string firstSceneName = "Home";
 
         void Awake()
@@ -24,6 +25,10 @@ namespace ZENN.Systems
             var walletService = new WalletService(Services.Save, Services.Config);
             walletService.Load();
             Services.Wallet = walletService;
+
+            var skinService = new SkinService(Services.Save, Services.Wallet, Services.Config, skinCatalog);
+            skinService.Load();
+            Services.Skins = skinService;
 
 #if UNITY_EDITOR
             gameObject.AddComponent<DebugWalletHotkey>();
